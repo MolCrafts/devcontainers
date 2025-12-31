@@ -2,15 +2,6 @@ name: "Validate devcontainer-feature.json files"
 on:
   workflow_dispatch:
   pull_request:
-    paths:
-      - 'features/**'
-      - '.github/workflows/feature-validate.yml'
-  push:
-    branches:
-      - master
-    paths:
-      - 'features/**'
-      - '.github/workflows/feature-validate.yml'
 
 jobs:
   validate:
@@ -18,10 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: "Install devcontainer CLI"
-        run: npm install -g @devcontainers/cli
-
       - name: "Validate devcontainer-feature.json files"
-        run: |
-          devcontainer features validate ./features/src
+        uses: devcontainers/action@v1
+        with:
+          validate-only: "true"
+          base-path-to-features: "./src"
 
