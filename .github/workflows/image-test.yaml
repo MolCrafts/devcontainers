@@ -1,17 +1,9 @@
-name: "CI - Test Images"
+name: "Test images"
 on:
   push:
     branches:
       - master
-    paths:
-      - 'images/**'
-      - 'features/**'
-      - '.github/workflows/image-test.yaml'
   pull_request:
-    paths:
-      - 'images/**'
-      - 'features/**'
-      - '.github/workflows/image-test.yaml'
   workflow_dispatch:
 
 jobs:

@@ -1,12 +1,6 @@
-name: "Build and Release DevContainer Features"
+name: "Release features"
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
-    paths:
-      - 'features/**'
-      - '.github/workflows/feature-release.yaml'
 
 jobs:
   deploy:
@@ -36,14 +30,19 @@ jobs:
         run: |
           set -e
           echo "Start."
-          # Configure git
+          # Configure git and Push updates
           git config --global user.email github-actions[bot]@users.noreply.github.com
           git config --global user.name github-actions[bot]
           git config pull.rebase false
-          # Add changes to the index
-          git add features/src/**/README.md
-          # Soft reset to the previous commit to avoid creating a new commit
-          git reset --soft HEAD~0
-          # Force-push the changes directly to the current branch
-          git push origin HEAD --force
+          branch=automated-documentation-update-$GITHUB_RUN_ID
+          git checkout -b $branch
+          message='Automated documentation update'
+          # Add / update and commit
+          git add */**/README.md
+          git commit -m 'Automated documentation update [skip ci]' || export NO_UPDATES=true
+          # Push
+          if [ "$NO_UPDATES" != "true" ] ; then
+              git push origin "$branch"
+              gh pr create --title "$message" --body "$message"
+          fi
 
