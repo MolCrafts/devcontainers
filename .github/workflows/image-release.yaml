@@ -1,0 +1,58 @@
+name: "Build and Release DevContainer Images"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - 'images/**'
+      - 'features/**'
+      - '.github/workflows/image-release.yaml'
+  workflow_run:
+    workflows: ["Release dev container features & Generate Documentation"]
+    types:
+      - completed
+
+jobs:
+  build-images:
+    if: ${{ github.ref == 'refs/heads/master' || github.event_name == 'workflow_run' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    
+    strategy:
+      matrix:
+        image-dir:
+          - images/molcrafts-cpu
+          - images/molcrafts-cuda
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Install devcontainer CLI
+        run: npm install -g @devcontainers/cli
+      
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build and push devcontainer image
+        run: |
+          IMAGE_NAME=$(basename ${{ matrix.image-dir }})
+          cd ${{ matrix.image-dir }}
+          
+          devcontainer build \
+            --workspace-folder ../.. \
+            --image-name ghcr.io/molcrafts/devcontainers/images/${IMAGE_NAME}:latest \
+            --image-name ghcr.io/molcrafts/devcontainers/images/${IMAGE_NAME}:${{ github.sha }} \
+            --push \
+            --log-level info
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

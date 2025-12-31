@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'features/**'
+      - '.github/workflows/feature-release.yaml'
 
 jobs:
   deploy:
@@ -20,7 +23,7 @@ jobs:
         uses: devcontainers/action@v1
         with:
           publish-features: "true"
-          base-path-to-features: "./src"
+          base-path-to-features: "./features/src"
           generate-docs: "true"
           
         env:
@@ -38,8 +41,9 @@ jobs:
           git config --global user.name github-actions[bot]
           git config pull.rebase false
           # Add changes to the index
-          git add */**/README.md
+          git add features/src/**/README.md
           # Soft reset to the previous commit to avoid creating a new commit
           git reset --soft HEAD~0
           # Force-push the changes directly to the current branch
           git push origin HEAD --force
+

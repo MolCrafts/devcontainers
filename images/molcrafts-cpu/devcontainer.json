@@ -1,0 +1,30 @@
+{
+  "name": "MolCrafts CPU Image",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "features": {
+    "../../features/src/molpy:{}": {
+      "installJupyter": true
+    },
+    "../../features/src/molrs:{}": {},
+    "../../features/src/molvis:{}": {},
+    "../../features/src/molexp:{}": {
+      "installJupyter": true
+    },
+    "../../features/src/molnex:{}": {
+      "backend": "cpu"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+        "ms-toolsai.jupyter",
+        "rust-lang.rust-analyzer",
+        "biomejs.biome"
+      ]
+    }
+  }
+}
+

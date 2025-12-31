@@ -1,0 +1,39 @@
+name: "CI - Test Images"
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'images/**'
+      - 'features/**'
+      - '.github/workflows/image-test.yaml'
+  pull_request:
+    paths:
+      - 'images/**'
+      - 'features/**'
+      - '.github/workflows/image-test.yaml'
+  workflow_dispatch:
+
+jobs:
+  test-images:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        image-dir:
+          - images/molcrafts-cpu
+          - images/molcrafts-cuda
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Install latest devcontainer CLI"
+        run: npm install -g @devcontainers/cli
+
+      - name: "Test image build for '${{ matrix.image-dir }}'"
+        run: |
+          cd ${{ matrix.image-dir }}
+          devcontainer build \
+            --workspace-folder ../.. \
+            --image-name ghcr.io/molcrafts/devcontainers/images/$(basename ${{ matrix.image-dir }}):test \
+            --log-level info
+

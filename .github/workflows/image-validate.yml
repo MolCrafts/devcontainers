@@ -1,0 +1,35 @@
+name: "Validate devcontainer.json files for images"
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'images/**'
+      - '.github/workflows/image-validate.yml'
+  push:
+    branches:
+      - master
+    paths:
+      - 'images/**'
+      - '.github/workflows/image-validate.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Install devcontainer CLI"
+        run: npm install -g @devcontainers/cli
+
+      - name: "Validate devcontainer.json files"
+        run: |
+          for image_dir in images/*/; do
+            if [ -f "$image_dir/devcontainer.json" ]; then
+              echo "Validating $image_dir"
+              cd "$image_dir"
+              # Validate JSON syntax
+              jq empty devcontainer.json || exit 1
+              cd ../..
+            fi
+          done
+

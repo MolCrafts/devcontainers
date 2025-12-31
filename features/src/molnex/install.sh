@@ -2,7 +2,7 @@
 
 # molnex Feature Install Script
 # This script installs PyTorch and NumPy for molnex ML development
-# Other dependencies should be installed via pip/conda in the project
+# All packages are installed via pip (conda is only used as the base environment)
 
 set -e
 
@@ -26,7 +26,7 @@ echo_error() {
 
 # Get compute backend option (default to cpu)
 BACKEND="${BACKEND:-cpu}"
-CUDA_VERSION="${CUDAVERSION:-12.1}"
+CUDA_VERSION="${CUDAVERSION:-12.6}"
 
 echo_info "Setting up molnex development environment with ${BACKEND} backend..."
 
@@ -40,7 +40,7 @@ rm -rf /var/lib/apt/lists/*
 if [ "$BACKEND" = "cuda" ]; then
     echo_info "Installing CUDA toolkit ${CUDA_VERSION}..."
     
-    # Convert CUDA version format for repository (e.g., 12.1 -> 12-1)
+    # Convert CUDA version format for repository (e.g., 12.6 -> 12-6)
     CUDA_REPO_VERSION=$(echo ${CUDA_VERSION} | sed 's/\./-/g')
     
     # Install CUDA keyring
@@ -72,25 +72,40 @@ if [ "$BACKEND" = "cuda" ]; then
     
     echo_info "CUDA toolkit installation complete"
     
-    # Install PyTorch with CUDA support
-    echo_info "Installing PyTorch with CUDA ${CUDA_VERSION} support..."
-    conda install -y pytorch pytorch-cuda=${CUDA_VERSION} -c pytorch -c nvidia
+    # Install PyTorch with CUDA support via pip
+    echo_info "Installing PyTorch with CUDA ${CUDA_VERSION} support via pip..."
+    
+    # Map CUDA version to PyTorch index URL
+    if [ "$CUDA_VERSION" = "13.0" ]; then
+        pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu130
+    elif [ "$CUDA_VERSION" = "12.8" ]; then
+        pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+    elif [ "$CUDA_VERSION" = "12.6" ]; then
+        pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
+    elif [ "$CUDA_VERSION" = "12.1" ]; then
+        pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+    elif [ "$CUDA_VERSION" = "11.8" ]; then
+        pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+    else
+        echo_warn "CUDA version ${CUDA_VERSION} not explicitly supported, trying default PyTorch CUDA build..."
+        pip install torch torchvision torchaudio
+    fi
     
     echo_info "Verifying CUDA installation..."
     python3 -c "import torch; print(f'PyTorch version: {torch.__version__}'); print(f'CUDA available: {torch.cuda.is_available()}'); print(f'CUDA version: {torch.version.cuda if torch.cuda.is_available() else \"N/A\"}')" || echo_warn "CUDA verification failed - this is expected if no GPU is available"
     
 else
-    echo_info "Installing CPU-only PyTorch..."
+    echo_info "Installing CPU-only PyTorch via pip..."
     
-    # Install PyTorch CPU version
-    conda install -y pytorch cpuonly -c pytorch
+    # Install PyTorch CPU version using pip
+    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
     
     echo_info "Verifying CPU installation..."
     python3 -c "import torch; print(f'PyTorch version: {torch.__version__}'); print(f'CUDA available: {torch.cuda.is_available()}')"
 fi
 
-echo_info "Installing NumPy..."
-conda install -y numpy
+echo_info "Installing NumPy via pip..."
+pip install numpy
 
 echo_info ""
 echo_info "molnex feature installation complete!"

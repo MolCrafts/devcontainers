@@ -6,7 +6,7 @@ A comprehensive development container feature for Python-based molecular science
 
 ```json
 "features": {
-    "ghcr.io/molcrafts/features/molpy:latest": {
+    "ghcr.io/molcrafts/devcontainers/features/molpy:latest": {
         "pythonVersion": "3.11",
         "installRdkit": true,
         "installJupyter": true
@@ -65,15 +65,15 @@ This feature automatically installs useful VS Code extensions:
 ## Dependencies
 
 This feature depends on:
-- `ghcr.io/molcrafts/features/utils:latest` - Common utilities and shell setup
-- `ghcr.io/molcrafts/features/miniforge:latest` - Conda/Mamba package manager
+- `ghcr.io/molcrafts/devcontainers/features/utils:latest` - Common utilities and shell setup
+- `ghcr.io/molcrafts/devcontainers/features/miniforge:latest` - Conda/Mamba package manager
 
 ## Usage Examples
 
 ### Basic Scientific Computing Setup
 ```json
 "features": {
-    "ghcr.io/molcrafts/features/molpy:latest": {
+    "ghcr.io/molcrafts/devcontainers/features/molpy:latest": {
         "pythonVersion": "3.11",
         "installNumpy": true,
         "installScipy": true,
@@ -87,7 +87,7 @@ This feature depends on:
 ### Cheminformatics Workbench
 ```json
 "features": {
-    "ghcr.io/molcrafts/features/molpy:latest": {
+    "ghcr.io/molcrafts/devcontainers/features/molpy:latest": {
         "pythonVersion": "3.11",
         "installRdkit": true,
         "installPymol": true,
@@ -101,7 +101,7 @@ This feature depends on:
 ### Molecular Dynamics Analysis
 ```json
 "features": {
-    "ghcr.io/molcrafts/features/molpy:latest": {
+    "ghcr.io/molcrafts/devcontainers/features/molpy:latest": {
         "pythonVersion": "3.11",
         "installOpenmm": true,
         "installMdanalysis": true,
@@ -153,4 +153,4 @@ The feature includes several development tools out of the box:
 
 ---
 
-_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/molcrafts/features/blob/main/src/molpy/devcontainer-feature.json). Add additional notes to a `NOTES.md`._
+_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/MolCrafts/devcontainers/blob/main/features/src/molrs/devcontainer-feature.json). Add additional notes to a `NOTES.md`._

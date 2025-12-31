@@ -12,7 +12,7 @@
         "features": {
             "molnex": {
                 "backend": "cuda",
-                "cudaVersion": "12.1"
+                "cudaVersion": "12.6"
             }
         }
     }

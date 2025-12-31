@@ -1,171 +1,124 @@
-# MolCrafts DevContainer Features
+# MolCrafts DevContainers
 
-A collection of devcontainer features for molecular science development, providing ready-to-use development environments for Python, Rust, visualization, and machine learning workflows.
+A collection of devcontainer features and pre-built images for molecular science development, providing ready-to-use development environments for Python, Rust, visualization, and machine learning workflows.
 
-## Available Features
+## Quick Start
 
-### molpy
+### Using Pre-built Images
 
-Python development environment for molecular science with Jupyter support.
+The easiest way to get started is using our pre-built images:
 
-**Includes:**
-- Python 3.x with Anaconda
-- Jupyter Lab (optional)
-- Development tools (black, isort)
-- VS Code Python extensions
-
-**Usage:**
+**CPU Image:**
 ```json
 {
-  "features": {
-    "ghcr.io/molcrafts/features/molpy:latest": {
-      "installJupyter": true
-    }
-  }
+  "image": "ghcr.io/molcrafts/devcontainers/images/molcrafts-cpu:latest"
 }
 ```
 
----
-
-### molrs
-
-Rust development environment for molecular science with WebAssembly support.
-
-**Includes:**
-- Rust toolchain (cargo, rustc, rustup)
-- wasm-pack for WebAssembly
-- Python and Anaconda (via dependencies)
-- VS Code Rust extensions
-
-**Usage:**
+**CUDA Image (requires NVIDIA GPU):**
 ```json
 {
-  "features": {
-    "ghcr.io/molcrafts/features/molrs:latest": {}
-  }
-}
-```
-
----
-
-### molvis
-
-Visualization tools combining Node.js and Python for molecular visualization.
-
-**Includes:**
-- Node.js and npm
-- Python environment (via molpy)
-- Biome formatter
-- VS Code extensions
-
-**Usage:**
-```json
-{
-  "features": {
-    "ghcr.io/molcrafts/features/molvis:latest": {}
-  }
-}
-```
-
----
-
-### molexp
-
-Task graph framework development environment with Python 3.12+.
-
-**Includes:**
-- Python 3.12+ with Anaconda
-- molexp dependencies (Pydantic, FastAPI, Typer, Rich)
-- Node.js (for UI development)
-- Jupyter Lab (optional)
-- Development tools
-
-**Usage:**
-```json
-{
-  "features": {
-    "ghcr.io/molcrafts/features/molexp:latest": {
-      "installJupyter": true
-    }
-  }
-}
-```
-
----
-
-### molnex
-
-ML training system with **CPU or CUDA support** for PyTorch.
-
-**Includes:**
-- PyTorch (CPU or CUDA)
-- CUDA Toolkit (CUDA mode only)
-- torch-scatter for graph neural networks
-- Python environment (via molpy)
-
-**CPU Usage:**
-```json
-{
-  "features": {
-    "ghcr.io/molcrafts/features/molnex:latest": {}
-  }
-}
-```
-
-**CUDA Usage:**
-```json
-{
-  "features": {
-    "ghcr.io/molcrafts/features/molnex:latest": {
-      "backend": "cuda",
-      "cudaVersion": "12.1"
-    }
-  },
+  "image": "ghcr.io/molcrafts/devcontainers/images/molcrafts-cuda:latest",
   "runArgs": ["--gpus", "all"]
 }
 ```
 
-> [!IMPORTANT]
-> CUDA support requires NVIDIA GPU drivers and NVIDIA Container Toolkit on the host machine.
+### Using Individual Features
 
----
+Compose your own environment by selecting specific features:
+
+```json
+{
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "features": {
+    "ghcr.io/molcrafts/devcontainers/features/molpy:latest": {
+      "installJupyter": true
+    },
+    "ghcr.io/molcrafts/devcontainers/features/molrs:latest": {}
+  }
+}
+```
+
+## Repository Structure
+
+```
+.
+├── features/
+│   ├── src/              # Feature definitions
+│   │   ├── molpy/        # Python + Anaconda + Jupyter
+│   │   ├── molrs/        # Rust toolchain + wasm-pack
+│   │   ├── molvis/       # Node.js + visualization tools
+│   │   ├── molexp/       # Task graph framework
+│   │   └── molnex/       # PyTorch (CPU/CUDA)
+│   └── test/             # Feature tests
+├── images/
+│   ├── molcrafts-cpu/    # Complete CPU environment
+│   └── molcrafts-cuda/   # Complete CUDA environment
+└── .github/workflows/    # CI/CD pipelines
+```
+
+## Available Components
+
+### Features
+
+Individual features that can be combined. See [features/README.md](features/README.md) for details:
+
+- **molpy**: Python development with Anaconda and Jupyter
+- **molrs**: Rust development with WebAssembly support
+- **molvis**: Visualization tools (Node.js + Python)
+- **molexp**: Task graph framework (Python 3.12+)
+- **molnex**: ML training with PyTorch (CPU or CUDA)
+
+### Images
+
+Pre-built complete environments. See [images/README.md](images/README.md) for details:
+
+- **molcrafts-cpu**: All features with CPU-only PyTorch
+- **molcrafts-cuda**: All features with CUDA-enabled PyTorch
 
 ## Development
 
 ### Testing Features
 
 ```bash
-# Test a specific feature
-devcontainer features test --features molnex
-
 # Test all features
-devcontainer features test
+devcontainer features test ./features/src
+
+# Test specific feature
+devcontainer features test --features molnex ./features/src
 ```
 
-### Publishing Features
+### Testing Images
 
-Features are published to GitHub Container Registry (ghcr.io) automatically via GitHub Actions.
+```bash
+# Test image builds
+cd images/molcrafts-cpu
+devcontainer build --workspace-folder ../.. --image-name test:local
+```
 
----
+### Publishing
+
+All components are automatically published to GitHub Container Registry when changes are pushed to the `master` branch:
+
+- **Features**: `ghcr.io/molcrafts/devcontainers/features/<feature-name>:latest`
+- **Images**: `ghcr.io/molcrafts/devcontainers/images/<image-name>:latest`
+
+## GitHub Actions Workflows
+
+This repository uses 6 separate CI/CD workflows:
+
+1. **feature-test.yaml**: Tests all features
+2. **feature-validate.yml**: Validates feature schemas
+3. **feature-release.yaml**: Publishes features to ghcr.io
+4. **image-test.yaml**: Tests image builds
+5. **image-validate.yml**: Validates image configurations
+6. **image-release.yaml**: Builds and publishes images to ghcr.io
 
 ## Documentation
 
-- **Development Guide**: https://github.com/teslamotors/devcontainers-cli/blob/main/docs/features/test.md
-- **Features Specification**: https://containers.dev/implementors/features/
-
----
-
-## Feature Dependencies
-
-```
-molpy (base)
-  ├── molrs (depends on molpy)
-  ├── molvis (depends on molpy)
-  ├── molexp (standalone)
-  └── molnex (depends on molpy)
-```
-
----
+- [Dev Containers Specification](https://containers.dev/)
+- [Features Development Guide](https://containers.dev/implementors/features/)
+- [Testing Features](https://github.com/devcontainers/cli/blob/main/docs/features/test.md)
 
 ## License
 

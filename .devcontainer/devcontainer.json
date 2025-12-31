@@ -6,9 +6,16 @@
         "json.schemas": [
           {
             "fileMatch": [
-              "*/devcontainer-feature.json"
+              "features/src/**/devcontainer-feature.json",
+              "images/**/devcontainer.json"
             ],
             "url": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainerFeature.schema.json"
+          },
+          {
+            "fileMatch": [
+              "images/**/devcontainer.json"
+            ],
+            "url": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json"
           }
         ]
       },

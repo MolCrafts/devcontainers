@@ -3,7 +3,7 @@
   "id": "molpy",
   "version": "0.0.1",
   "description": "A feature for setting up Python development environment with common molecular science packages",
-  "licenseURL": "https://github.com/MolCrafts/features/blob/main/LICENSE",
+  "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/main/LICENSE",
   "dependsOn": {
     "ghcr.io/devcontainers/features/common-utils:2": {},
     "ghcr.io/devcontainers/features/anaconda:1": {}

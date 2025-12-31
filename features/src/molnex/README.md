@@ -8,7 +8,6 @@ This feature installs and configures a Python development environment optimized 
 
 - Python 3.10+ with Anaconda
 - PyTorch for deep learning (CPU or CUDA)
-- torch-scatter for graph neural networks
 - NumPy for numerical computing
 - molpy feature as a dependency
 - VS Code extensions for Python development
@@ -23,7 +22,7 @@ For CPU-only PyTorch installation:
 {
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
-    "ghcr.io/molcrafts/features/molnex:latest": {}
+    "ghcr.io/molcrafts/devcontainers/features/molnex:latest": {}
   }
 }
 ```
@@ -33,7 +32,7 @@ Or explicitly specify CPU:
 ```json
 {
   "features": {
-    "ghcr.io/molcrafts/features/molnex:latest": {
+    "ghcr.io/molcrafts/devcontainers/features/molnex:latest": {
       "backend": "cpu"
     }
   }
@@ -48,9 +47,9 @@ For CUDA-enabled PyTorch with GPU support:
 {
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
-    "ghcr.io/molcrafts/features/molnex:latest": {
+    "ghcr.io/molcrafts/devcontainers/features/molnex:latest": {
       "backend": "cuda",
-      "cudaVersion": "12.1"
+      "cudaVersion": "12.6"
     }
   },
   "runArgs": ["--gpus", "all"]
@@ -70,7 +69,7 @@ For CUDA-enabled PyTorch with GPU support:
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `backend` | string (enum) | `"cpu"` | PyTorch compute backend: `"cpu"` for CPU-only or `"cuda"` for GPU support |
-| `cudaVersion` | string | `"12.1"` | CUDA version to install (only used when `backend` is `"cuda"`). Examples: `"12.1"`, `"11.8"` |
+| `cudaVersion` | string | `"12.6"` | CUDA version to install (only used when `backend` is `"cuda"`). Supported: `"13.0"`, `"12.8"`, `"12.6"`, `"12.1"`, `"11.8"` |
 
 ## What's Included
 
@@ -116,7 +115,7 @@ Inherited from the molpy feature:
 This feature depends on:
 - `ghcr.io/devcontainers/features/common-utils:2` - Common utilities
 - `ghcr.io/devcontainers/features/anaconda:1` - Anaconda Python distribution
-- `ghcr.io/molcrafts/features/molpy:latest` - Molecular science Python packages
+- `ghcr.io/molcrafts/devcontainers/features/molpy:latest` - Molecular science Python packages
 
 ## About molnex
 
@@ -158,7 +157,7 @@ Expected output:
 ```
 PyTorch: 2.x.x+cuXXX
 CUDA available: True
-CUDA version: 12.1
+CUDA version: 12.6
 ```
 
 Check GPU details:
@@ -190,7 +189,7 @@ If `torch.cuda.is_available()` returns `False` in CUDA mode:
 1. **Check host GPU**: Run `nvidia-smi` on your host machine to verify GPU drivers
 2. **Check Container Toolkit**: Verify NVIDIA Container Toolkit is installed
 3. **Check runArgs**: Ensure your devcontainer.json includes `"runArgs": ["--gpus", "all"]`
-4. **Check Docker runtime**: Test with `docker run --rm --gpus all nvidia/cuda:12.1.0-base-ubuntu22.04 nvidia-smi`
+4. **Check Docker runtime**: Test with `docker run --rm --gpus all nvidia/cuda:12.6.0-base-ubuntu22.04 nvidia-smi`
 
 ### torch-scatter installation fails
 
@@ -207,7 +206,7 @@ To use a different CUDA version, specify it in the feature options:
 ```json
 {
   "features": {
-    "ghcr.io/molcrafts/features/molnex:latest": {
+    "ghcr.io/molcrafts/devcontainers/features/molnex:latest": {
       "backend": "cuda",
       "cudaVersion": "11.8"
     }
