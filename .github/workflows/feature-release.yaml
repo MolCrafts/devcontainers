@@ -1,4 +1,4 @@
-name: "Release dev container features & Generate Documentation"
+name: "Build and Release DevContainer Features"
 on:
   workflow_dispatch:
   push:
@@ -23,7 +23,7 @@ jobs:
         uses: devcontainers/action@v1
         with:
           publish-features: "true"
-          base-path-to-features: "./features/src"
+          base-path-to-features: "./features"
           generate-docs: "true"
           
         env:
