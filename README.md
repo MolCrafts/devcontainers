@@ -82,10 +82,10 @@ Pre-built complete environments. See [images/README.md](images/README.md) for de
 
 ```bash
 # Test all features
-devcontainer features test ./features/src
+devcontainer features test ./features
 
 # Test specific feature
-devcontainer features test --features molnex ./features/src
+devcontainer features test --features molnex ./features
 ```
 
 ### Testing Images

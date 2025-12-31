@@ -147,10 +147,10 @@ molpy (base)
 
 ```bash
 # Test all features
-devcontainer features test ./src
+devcontainer features test .
 
 # Test specific feature
-devcontainer features test --features molnex ./src
+devcontainer features test --features molnex .
 ```
 
 ### Creating New Features
