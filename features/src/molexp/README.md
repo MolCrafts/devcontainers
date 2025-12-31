@@ -1,64 +1,34 @@
-# molexp (devcontainer feature)
 
-A devcontainer feature for setting up molexp - a minimal task graph framework with compiler, engine, and DSL.
+# molexp (molexp)
 
-## Description
+A feature for setting up molexp - a task graph framework with compiler, engine, and DSL
 
-This feature installs and configures a Python development environment optimized for molexp development, including:
-
-- Python 3.12+ with Anaconda
-- molexp core dependencies (Pydantic, PyYAML, Typer, Rich, psutil, FastAPI, uvicorn)
-- Python development tools (Black, isort)
-- Optional Jupyter Lab support
-- VS Code extensions for Python development
-
-## Usage
+## Example Usage
 
 ```json
-{
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  "features": {
-    "ghcr.io/molcrafts/devcontainers/molexp:latest": {
-      "installJupyter": true
-    }
-  }
+"features": {
+    "ghcr.io/MolCrafts/devcontainers/molexp:0": {}
 }
 ```
 
 ## Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `installJupyter` | boolean | `true` | Install Jupyter Lab and related packages |
+| Options Id | Description | Type | Default Value |
+|-----|-----|-----|-----|
+| installJupyter | Install Jupyter Lab and related packages | boolean | true |
 
-## What's Included
-
-### Python Packages
-
-- **pydantic** (>=2.5) - Data validation using Python type annotations
-- **pyyaml** (>=6.0) - YAML parser and emitter
-- **typer** (>=0.9.0) - CLI framework
-- **rich** (>=13.0.0) - Rich text and beautiful formatting
-- **psutil** (>=5.9.0) - Process and system utilities
-- **fastapi** (>=0.100.0) - Modern web framework
-- **uvicorn** (>=0.23.0) - ASGI server
-
-### Development Tools
-
-- **black** - Python code formatter
-- **isort** - Import statement organizer
-- **jupyterlab** (optional) - Interactive development environment
-- **ipykernel** (optional) - IPython kernel for Jupyter
+## Customizations
 
 ### VS Code Extensions
 
-- `ms-python.python` - Python language support
-- `ms-python.black-formatter` - Black formatter integration
-- `ms-python.isort` - isort integration
-- `ms-toolsai.jupyter` - Jupyter notebook support
+- `ms-python.python`
+- `ms-python.black-formatter`
+- `ms-python.isort`
+- `ms-toolsai.jupyter`
+- `biomejs.biome`
 
-## About molexp
 
-molexp is a tiny yet fully-typed task-graph framework built on top of Pydantic. It contains a pure functional task abstraction, a static compiler that produces deterministic graph orders, a runtime engine, and a tiny DSL for common data-flow patterns.
 
-For more information, visit the [molexp repository](https://github.com/MolCrafts/molexp).
+---
+
+_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/MolCrafts/devcontainers/blob/main/features/src/molexp/devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
