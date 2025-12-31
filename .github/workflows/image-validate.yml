@@ -29,6 +29,8 @@ jobs:
               cd "$image_dir"
               # Validate JSON syntax
               jq empty devcontainer.json || exit 1
+              # Validate with devcontainer CLI (dry-run)
+              devcontainer build --workspace-folder ../.. --dry-run || exit 1
               cd ../..
             fi
           done
