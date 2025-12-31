@@ -22,7 +22,7 @@ For CPU-only PyTorch installation:
 {
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
-    "ghcr.io/molcrafts/devcontainers/features/molnex:latest": {}
+    "ghcr.io/molcrafts/devcontainers/molnex:latest": {}
   }
 }
 ```
@@ -32,7 +32,7 @@ Or explicitly specify CPU:
 ```json
 {
   "features": {
-    "ghcr.io/molcrafts/devcontainers/features/molnex:latest": {
+    "ghcr.io/molcrafts/devcontainers/molnex:latest": {
       "backend": "cpu"
     }
   }
@@ -47,7 +47,7 @@ For CUDA-enabled PyTorch with GPU support:
 {
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
-    "ghcr.io/molcrafts/devcontainers/features/molnex:latest": {
+    "ghcr.io/molcrafts/devcontainers/molnex:latest": {
       "backend": "cuda",
       "cudaVersion": "12.6"
     }
@@ -115,7 +115,7 @@ Inherited from the molpy feature:
 This feature depends on:
 - `ghcr.io/devcontainers/features/common-utils:2` - Common utilities
 - `ghcr.io/devcontainers/features/anaconda:1` - Anaconda Python distribution
-- `ghcr.io/molcrafts/devcontainers/features/molpy:latest` - Molecular science Python packages
+- `ghcr.io/molcrafts/devcontainers/molpy:latest` - Molecular science Python packages
 
 ## About molnex
 
@@ -206,7 +206,7 @@ To use a different CUDA version, specify it in the feature options:
 ```json
 {
   "features": {
-    "ghcr.io/molcrafts/devcontainers/features/molnex:latest": {
+    "ghcr.io/molcrafts/devcontainers/molnex:latest": {
       "backend": "cuda",
       "cudaVersion": "11.8"
     }

@@ -31,10 +31,10 @@ Compose your own environment by selecting specific features:
 {
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
   "features": {
-    "ghcr.io/molcrafts/devcontainers/features/molpy:latest": {
+    "ghcr.io/molcrafts/devcontainers/molpy:latest": {
       "installJupyter": true
     },
-    "ghcr.io/molcrafts/devcontainers/features/molrs:latest": {}
+    "ghcr.io/molcrafts/devcontainers/molrs:latest": {}
   }
 }
 ```
@@ -100,7 +100,7 @@ devcontainer build --workspace-folder ../.. --image-name test:local
 
 All components are automatically published to GitHub Container Registry when changes are pushed to the `master` branch:
 
-- **Features**: `ghcr.io/molcrafts/devcontainers/features/<feature-name>:latest`
+- **Features**: `ghcr.io/molcrafts/devcontainers/<feature-name>:latest`
 - **Images**: `ghcr.io/molcrafts/devcontainers/images/<image-name>:latest`
 
 ## GitHub Actions Workflows

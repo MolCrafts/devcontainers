@@ -5,7 +5,7 @@
     "description": "A feature for setting up molnex - unified modeling of molecular potentials and properties with physics-aware ML",
     "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/main/LICENSE",
     "dependsOn": {
-        "ghcr.io/molcrafts/devcontainers/features/molpy:latest": {}
+        "ghcr.io/molcrafts/devcontainers/molpy:latest": {}
     },
     "containerEnv": {
         "PATH": "/usr/local/cuda/bin:${PATH}",

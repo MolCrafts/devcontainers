@@ -18,7 +18,7 @@ Python development environment for molecular science with Jupyter support.
 ```json
 {
   "features": {
-    "ghcr.io/molcrafts/devcontainers/features/molpy:latest": {
+    "ghcr.io/molcrafts/devcontainers/molpy:latest": {
       "installJupyter": true
     }
   }
@@ -41,7 +41,7 @@ Rust development environment for molecular science with WebAssembly support.
 ```json
 {
   "features": {
-    "ghcr.io/molcrafts/devcontainers/features/molrs:latest": {}
+    "ghcr.io/molcrafts/devcontainers/molrs:latest": {}
   }
 }
 ```
@@ -62,7 +62,7 @@ Visualization tools combining Node.js and Python for molecular visualization.
 ```json
 {
   "features": {
-    "ghcr.io/molcrafts/devcontainers/features/molvis:latest": {}
+    "ghcr.io/molcrafts/devcontainers/molvis:latest": {}
   }
 }
 ```
@@ -84,7 +84,7 @@ Task graph framework development environment with Python 3.12+.
 ```json
 {
   "features": {
-    "ghcr.io/molcrafts/devcontainers/features/molexp:latest": {
+    "ghcr.io/molcrafts/devcontainers/molexp:latest": {
       "installJupyter": true
     }
   }
@@ -106,7 +106,7 @@ ML training system with **CPU or CUDA support** for PyTorch.
 ```json
 {
   "features": {
-    "ghcr.io/molcrafts/devcontainers/features/molnex:latest": {}
+    "ghcr.io/molcrafts/devcontainers/molnex:latest": {}
   }
 }
 ```
@@ -115,7 +115,7 @@ ML training system with **CPU or CUDA support** for PyTorch.
 ```json
 {
   "features": {
-    "ghcr.io/molcrafts/devcontainers/features/molnex:latest": {
+    "ghcr.io/molcrafts/devcontainers/molnex:latest": {
       "backend": "cuda",
       "cudaVersion": "12.6"
     }

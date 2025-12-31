@@ -18,7 +18,7 @@ This feature installs and configures a Python development environment optimized 
 {
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
-    "ghcr.io/molcrafts/devcontainers/features/molexp:latest": {
+    "ghcr.io/molcrafts/devcontainers/molexp:latest": {
       "installJupyter": true
     }
   }
