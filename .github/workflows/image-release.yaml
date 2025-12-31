@@ -42,8 +42,8 @@ jobs:
           
           devcontainer build \
             --workspace-folder ../.. \
-            --image-name ghcr.io/molcrafts/devcontainers/images/${IMAGE_NAME}:latest \
-            --image-name ghcr.io/molcrafts/devcontainers/images/${IMAGE_NAME}:${{ github.sha }} \
+            --image-name ghcr.io/molcrafts/devcontainers/${IMAGE_NAME}:latest \
+            --image-name ghcr.io/molcrafts/devcontainers/${IMAGE_NAME}:${{ github.sha }} \
             --push \
             --log-level info
         env:
