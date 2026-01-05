@@ -1,7 +1,7 @@
 {
     "name": "molexp",
     "id": "molexp",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "A feature for setting up molexp - a task graph framework with compiler, engine, and DSL",
     "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/main/LICENSE",
     "dependsOn": {

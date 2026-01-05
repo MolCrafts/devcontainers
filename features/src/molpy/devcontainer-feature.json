@@ -1,7 +1,7 @@
 {
   "name": "molpy",
   "id": "molpy",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A feature for setting up Python development environment with common molecular science packages",
   "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/main/LICENSE",
   "dependsOn": {},
@@ -13,13 +13,6 @@
         "ms-python.isort",
         "ms-toolsai.jupyter"
       ]
-    }
-  },
-  "options": {
-    "installJupyter": {
-      "type": "boolean",
-      "default": true,
-      "description": "Install Jupyter Lab and related packages"
     }
   }
 }

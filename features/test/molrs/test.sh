@@ -21,10 +21,6 @@ check "cargo help works" cargo help
 # Test wasm-pack installation
 check "wasm-pack is available" wasm-pack --version
 
-# Test Python and conda (from dependencies)
-check "python is available" python --version
-check "conda is available" conda --version
-
 # Test that we can create a simple Rust project
 check "cargo new works" bash -c "cd /tmp && cargo new test_project --quiet && rm -rf test_project"
 

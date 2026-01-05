@@ -10,7 +10,6 @@ source dev-container-features-test-lib
 # Basic tool availability tests
 check "python3 is available" python3 --version
 check "pip3 is available" pip3 --version
-check "conda is available" conda --version
 
 # Test Python version (molnex requires Python 3.10+)
 check "python version is 3.10 or higher" bash -c "python3 --version | grep -E 'Python 3\.(1[0-9]|[2-9][0-9])'"

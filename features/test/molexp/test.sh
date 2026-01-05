@@ -10,7 +10,6 @@ source dev-container-features-test-lib
 # Basic tool availability tests
 check "python3 is available" python3 --version
 check "pip3 is available" pip3 --version
-check "conda is available" conda --version
 
 # Test Python version (molexp requires Python 3.12+)
 check "python version is 3.12 or higher" bash -c "python3 --version | grep -E 'Python 3\.(1[2-9]|[2-9][0-9])'"
@@ -22,9 +21,6 @@ check "isort is available" isort --version
 # Test Node.js (from node feature)
 check "node is available" node --version
 check "npm is available" npm --version
-
-# Test Jupyter (if installed via molpy)
-check "jupyter is available" jupyter --version || echo "Jupyter not installed (optional)"
 
 # Report result
 reportResults

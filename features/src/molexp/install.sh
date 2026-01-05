@@ -26,13 +26,13 @@ echo_error() {
 
 echo_info "Setting up molexp development environment..."
 
-# molexp doesn't need any additional system packages beyond what's provided by:
-# - common-utils (git, etc.)
-# - anaconda (Python, conda, pip)
-# - node (Node.js, npm)
+# Function to install packages with pip
+install_pip_packages() {
+    local packages="$1"
+    if [ -n "$packages" ]; then
+        echo_info "Installing pip packages: $packages"
+        pip install --no-cache-dir $packages
+    fi
+}
 
-echo_info ""
-echo_info "molexp feature installation complete!"
-echo_info ""
-echo_info "Next steps:"
-echo_info "Install molexp dependencies: pip install -e ."
+install_pip_packages "isort black"
