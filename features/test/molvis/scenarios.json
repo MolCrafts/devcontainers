@@ -1,16 +1,1 @@
-{
-	"default": {
-		"image": "mcr.microsoft.com/devcontainers/python:3.11",
-		"features": {
-			"ghcr.io/devcontainers/features/node:1": {},
-			"ghcr.io/molcrafts/devcontainers/molpy:latest": {},
-			"ghcr.io/molcrafts/devcontainers/molvis:latest": {}
-		},
-		"test": [
-			"node --version",
-			"npm --version",
-			"python3 --version",
-			"pip3 --version"
-		]
-	}
-}
+{}

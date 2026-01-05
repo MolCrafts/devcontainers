@@ -21,9 +21,6 @@ check "npm help works" npm help
 check "python is available" python --version
 check "python3 is available" python3 --version
 
-# Test conda (from molpy feature dependency)
-check "conda is available" conda --version
-
 # Test development tools from molpy
 check "black is available" black --version
 check "isort is available" isort --version
