@@ -1,63 +1,128 @@
 # MolCrafts DevContainers
 
-Devcontainer features 与预构建镜像合集，覆盖 Python、Rust、可视化与 ML（CPU/CUDA）。
+A collection of devcontainer features and pre-built images for molecular science development, providing ready-to-use development environments for Python, Rust, visualization, and machine learning workflows.
 
-## 快速上手
+## Quick Start
 
-**直接用镜像（推荐）**
-- CPU: `ghcr.io/molcrafts/devcontainers/images/molcrafts-cpu:latest`
-- CUDA: `ghcr.io/molcrafts/devcontainers/images/molcrafts-cuda:latest`（需宿主 NVIDIA GPU，`--gpus all`）
+### Using Pre-built Images
 
-**按需拼装 Feature**
+The easiest way to get started is using our pre-built images:
+
+**CPU Image:**
 ```json
 {
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "image": "ghcr.io/molcrafts/devcontainers/images/molcrafts-cpu:latest"
+}
+```
+
+**CUDA Image (requires NVIDIA GPU):**
+```json
+{
+  "image": "ghcr.io/molcrafts/devcontainers/images/molcrafts-cuda:latest",
+  "runArgs": ["--gpus", "all"]
+}
+```
+
+### Using Individual Features
+
+Compose your own environment by selecting specific features. Features require appropriate base images (Python, Rust, etc.):
+
+```json
+{
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
   "features": {
-    "ghcr.io/molcrafts/devcontainers/molpy:latest": { "installJupyter": true },
-    "ghcr.io/molcrafts/devcontainers/molrs:latest": {}
+    "ghcr.io/devcontainers/features/anaconda:1": {},
+    "ghcr.io/molcrafts/devcontainers/molpy:latest": {},
+    "ghcr.io/molcrafts/devcontainers/molnex:latest": {
+      "backend": "cpu"
+    }
   }
 }
 ```
 
-## 组件概览
+**Note**: MolCrafts features do not install Python/Node.js/Rust themselves. Use appropriate base images or add required devcontainer features (anaconda, node, rust) first.
 
-- Features（详见 [features/README.md](features/README.md)）
-  - molpy: Python + Anaconda + Jupyter
-  - molrs: Rust + wasm-pack
-  - molvis: Node.js 可视化工具
-  - molexp: 任务图框架（Python 3.12+）
-  - molnex: PyTorch（CPU/CUDA）
+## Repository Structure
 
-- Images（详见 [images/README.md](images/README.md)）
-  - molcrafts-cpu: 全量特性 + CPU PyTorch
-  - molcrafts-cuda: 全量特性 + CUDA PyTorch
-
-## 仓库结构
 ```
-features/  # Feature 定义与测试
-images/    # 预构建镜像配置
-.github/   # CI/CD
+.
+├── features/
+│   ├── src/              # Feature definitions
+│   │   ├── molpy/        # Python development tools
+│   │   ├── molrs/        # Rust toolchain + wasm-pack
+│   │   ├── molvis/       # Visualization tools
+│   │   ├── molexp/       # Task graph framework
+│   │   └── molnex/       # PyTorch (CPU/CUDA)
+│   └── test/             # Feature tests
+├── images/
+│   ├── molcrafts-cpu/    # Complete CPU environment
+│   └── molcrafts-cuda/   # Complete CUDA environment
+└── .github/workflows/    # CI/CD pipelines
 ```
 
-## 常用命令
+## Available Components
+
+### Features
+
+Individual features that can be combined. See [features/README.md](features/README.md) for details:
+
+- **molpy**: Python development environment (requires Python base image or anaconda feature)
+- **molrs**: Rust development with WebAssembly support (requires rust feature)
+- **molvis**: Visualization tools (requires Python + Node.js)
+- **molexp**: Task graph framework (requires Python + Node.js)
+- **molnex**: ML training with PyTorch CPU/CUDA (requires Python, installs PyTorch)
+
+### Images
+
+Pre-built complete environments. See [images/README.md](images/README.md) for details:
+
+- **molcrafts-cpu**: All features with CPU-only PyTorch
+- **molcrafts-cuda**: All features with CUDA-enabled PyTorch
+
+## Development
+
+### Testing Features
 
 ```bash
-# 测试全部 features
+# Test all features
 devcontainer features test ./features
 
-# 测试单个 feature（例：molnex）
+# Test specific feature
 devcontainer features test ./features -f molnex
-
-# 构建 CPU 镜像（本地）
-cd images/molcrafts-cpu && devcontainer build --workspace-folder ../.. --image-name test:local
 ```
 
-## 发布
-- 推送到 master 后自动发布到 GHCR：
-  - Features: ghcr.io/molcrafts/devcontainers/<feature>:latest
-  - Images:   ghcr.io/molcrafts/devcontainers/images/<image>:latest
+### Testing Images
 
-## 文档
-- [Dev Containers Spec](https://containers.dev/)
-- [Features Guide](https://containers.dev/implementors/features/)
+```bash
+# Test image builds
+cd images/molcrafts-cpu
+devcontainer build --workspace-folder ../.. --image-name test:local
+```
+
+### Publishing
+
+All components are automatically published to GitHub Container Registry when changes are pushed to the `master` branch:
+
+- **Features**: `ghcr.io/molcrafts/devcontainers/<feature-name>:latest`
+- **Images**: `ghcr.io/molcrafts/devcontainers/images/<image-name>:latest`
+
+## GitHub Actions Workflows
+
+This repository uses 6 separate CI/CD workflows:
+
+1. **feature-test.yaml**: Tests all features
+2. **feature-validate.yml**: Validates feature schemas
+3. **feature-release.yaml**: Publishes features to ghcr.io
+4. **image-test.yaml**: Tests image builds
+5. **image-validate.yml**: Validates image configurations
+6. **image-release.yaml**: Builds and publishes images to ghcr.io
+
+## Documentation
+
+- [Dev Containers Specification](https://containers.dev/)
+- [Features Development Guide](https://containers.dev/implementors/features/)
 - [Testing Features](https://github.com/devcontainers/cli/blob/main/docs/features/test.md)
+
+## License
+
+See [LICENSE](LICENSE) file for details.
