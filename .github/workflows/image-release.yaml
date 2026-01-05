@@ -2,15 +2,27 @@ name: "Release images"
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - 'images/**'
+      - 'features/src/**'
+      - '.github/workflows/image-release.yaml'
   workflow_run:
-    workflows: ["Release dev container features & Generate Documentation"]
+    workflows: ["Release features"]
     types:
       - completed
 
+concurrency:
+  group: image-release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build-images:
-    if: ${{ github.ref == 'refs/heads/master' || github.event_name == 'workflow_run' }}
+    if: ${{ github.ref == 'refs/heads/master' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') }}
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     permissions:
       contents: read
       packages: write

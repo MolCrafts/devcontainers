@@ -18,21 +18,25 @@ check "python version is 3.10 or higher" bash -c "python3 --version | grep -E 'P
 # Test PyTorch installation
 check "pytorch is importable" python3 -c "import torch; print(torch.__version__)"
 
-# Detect compute backend
+# Detect build type via torch.version.cuda (hardware availability may be false in CI)
+TORCH_CUDA=$(python3 -c "import torch; print(torch.version.cuda or '')" 2>/dev/null || echo "")
 CUDA_AVAILABLE=$(python3 -c "import torch; print(torch.cuda.is_available())" 2>/dev/null || echo "False")
 
-if [ "$CUDA_AVAILABLE" = "True" ]; then
-    echo "Detected CUDA backend - running CUDA-specific tests"
-    
-    # CUDA-specific tests
-    check "cuda is available" python3 -c "import torch; assert torch.cuda.is_available(), 'CUDA not available'"
-    check "cuda version check" python3 -c "import torch; print(f'CUDA version: {torch.version.cuda}')"
+if [ -n "$TORCH_CUDA" ]; then
+    echo "Detected CUDA wheel (torch.version.cuda=$TORCH_CUDA)"
+    check "cuda wheel reports version" python3 -c "import torch; assert torch.version.cuda, 'Expected CUDA build'; print(torch.version.cuda)"
     check "nvcc is available" nvcc --version
+    check "cuda path set" bash -c "echo \$PATH | grep cuda"
+    check "cuda lib path set" bash -c "echo \$LD_LIBRARY_PATH | grep cuda"
+    # Only assert availability when runtime GPU is present; otherwise just print.
+    if [ "$CUDA_AVAILABLE" = "True" ]; then
+        check "cuda is available" python3 -c "import torch; assert torch.cuda.is_available(), 'CUDA not available'"
+    else
+        echo "CUDA wheel present but torch.cuda.is_available() is False (likely no GPU runtime)."
+    fi
 else
-    echo "Detected CPU backend - running CPU-specific tests"
-    
-    # CPU-specific tests
-    check "cpu-only pytorch" python3 -c "import torch; assert not torch.cuda.is_available(), 'CUDA should not be available in CPU mode'"
+    echo "Detected CPU wheel"
+    check "cpu-only pytorch" python3 -c "import torch; assert not torch.version.cuda, 'Expected CPU build'; assert not torch.cuda.is_available(), 'CUDA should not be available in CPU mode'"
 fi
 
 # Test numpy installation

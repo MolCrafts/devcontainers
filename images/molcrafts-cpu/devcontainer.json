@@ -2,15 +2,15 @@
   "name": "MolCrafts CPU Image",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
   "features": {
-    "../../features/src/molpy:{}": {
+    "ghcr.io/molcrafts/devcontainers/molpy:latest": {
       "installJupyter": true
     },
-    "../../features/src/molrs:{}": {},
-    "../../features/src/molvis:{}": {},
-    "../../features/src/molexp:{}": {
+    "ghcr.io/molcrafts/devcontainers/molrs:latest": {},
+    "ghcr.io/molcrafts/devcontainers/molvis:latest": {},
+    "ghcr.io/molcrafts/devcontainers/molexp:latest": {
       "installJupyter": true
     },
-    "../../features/src/molnex:{}": {
+    "ghcr.io/molcrafts/devcontainers/molnex:latest": {
       "backend": "cpu"
     }
   },

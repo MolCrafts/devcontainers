@@ -117,7 +117,7 @@ ML training system with **CPU or CUDA support** for PyTorch.
   "features": {
     "ghcr.io/molcrafts/devcontainers/molnex:latest": {
       "backend": "cuda",
-      "cudaVersion": "12.6"
+      "cudaVersion": "13.1"
     }
   },
   "runArgs": ["--gpus", "all"]

@@ -49,7 +49,7 @@ For CUDA-enabled PyTorch with GPU support:
   "features": {
     "ghcr.io/molcrafts/devcontainers/molnex:latest": {
       "backend": "cuda",
-      "cudaVersion": "12.6"
+      "cudaVersion": "13.1"
     }
   },
   "runArgs": ["--gpus", "all"]
@@ -69,7 +69,7 @@ For CUDA-enabled PyTorch with GPU support:
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `backend` | string (enum) | `"cpu"` | PyTorch compute backend: `"cpu"` for CPU-only or `"cuda"` for GPU support |
-| `cudaVersion` | string | `"12.6"` | CUDA version to install (only used when `backend` is `"cuda"`). Supported: `"13.0"`, `"12.8"`, `"12.6"`, `"12.1"`, `"11.8"` |
+| `cudaVersion` | string | `"13.1"` | CUDA version to install (only used when `backend` is `"cuda"`). Supported: `"13.1"`, `"13.0"`, `"12.8"`, `"12.6"` |
 
 ## What's Included
 
@@ -157,62 +157,10 @@ Expected output:
 ```
 PyTorch: 2.x.x+cuXXX
 CUDA available: True
-CUDA version: 12.6
+CUDA version: 13.1
 ```
 
 Check GPU details:
 ```bash
 python3 -c "import torch; print(f'GPU: {torch.cuda.get_device_name(0)}')"
 ```
-
-### torch-scatter
-
-Verify torch-scatter is working:
-
-```python
-import torch
-import torch_scatter
-
-# Simple scatter test
-src = torch.randn(10, 5)
-index = torch.tensor([0, 0, 1, 1, 1, 2, 2, 2, 2, 2])
-out = torch_scatter.scatter(src, index, dim=0, reduce="mean")
-print(f"torch-scatter is working! Output shape: {out.shape}")
-```
-
-## Troubleshooting
-
-### CUDA not available in container
-
-If `torch.cuda.is_available()` returns `False` in CUDA mode:
-
-1. **Check host GPU**: Run `nvidia-smi` on your host machine to verify GPU drivers
-2. **Check Container Toolkit**: Verify NVIDIA Container Toolkit is installed
-3. **Check runArgs**: Ensure your devcontainer.json includes `"runArgs": ["--gpus", "all"]`
-4. **Check Docker runtime**: Test with `docker run --rm --gpus all nvidia/cuda:12.6.0-base-ubuntu22.04 nvidia-smi`
-
-### torch-scatter installation fails
-
-If torch-scatter fails to install:
-
-1. Ensure PyTorch is installed first (the feature handles this automatically)
-2. Check that the PyTorch version is compatible with torch-scatter
-3. For CUDA builds, ensure CUDA toolkit is properly installed
-
-### Different CUDA version needed
-
-To use a different CUDA version, specify it in the feature options:
-
-```json
-{
-  "features": {
-    "ghcr.io/molcrafts/devcontainers/molnex:latest": {
-      "backend": "cuda",
-      "cudaVersion": "11.8"
-    }
-  }
-}
-```
-
-Supported CUDA versions depend on PyTorch compatibility. Check the [PyTorch website](https://pytorch.org/get-started/locally/) for supported versions.
-

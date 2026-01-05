@@ -2,10 +2,18 @@ name: "Validate features"
 on:
   workflow_dispatch:
   pull_request:
+    paths:
+      - 'features/src/**'
+      - '.github/workflows/feature-validate.yml'
+
+concurrency:
+  group: feature-validate-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 

@@ -35,7 +35,7 @@ Complete development environment with all features using CUDA-enabled PyTorch.
 - Rust development environment (molrs)
 - Visualization tools (molvis)
 - Task graph framework (molexp)
-- ML training system (molnex) with CUDA 12.6 backend
+- ML training system (molnex) with CUDA 13.1 backend
 
 **Usage:**
 ```json
@@ -49,7 +49,7 @@ Complete development environment with all features using CUDA-enabled PyTorch.
 
 > [!IMPORTANT]
 > CUDA support requires:
-> - NVIDIA GPU with CUDA 12.6 support
+> - NVIDIA GPU with CUDA 13.1 support
 > - NVIDIA GPU drivers on host machine
 > - NVIDIA Container Toolkit installed
 

@@ -3,13 +3,25 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'images/**'
+      - 'features/src/**'
+      - '.github/workflows/image-test.yaml'
   pull_request:
+    paths:
+      - 'images/**'
+      - 'features/src/**'
+      - '.github/workflows/image-test.yaml'
   workflow_dispatch:
+
+concurrency:
+  group: image-test-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test-images:
     runs-on: ubuntu-latest
-    continue-on-error: true
+    timeout-minutes: 45
     strategy:
       matrix:
         image-dir:
@@ -18,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: "Install latest devcontainer CLI"
+      - name: "Install devcontainer CLI"
         run: npm install -g @devcontainers/cli
 
       - name: "Test image build for '${{ matrix.image-dir }}'"

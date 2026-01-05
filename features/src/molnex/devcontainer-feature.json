@@ -1,7 +1,7 @@
 {
     "name": "molnex",
     "id": "molnex",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "A feature for setting up molnex - unified modeling of molecular potentials and properties with physics-aware ML",
     "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/main/LICENSE",
     "dependsOn": {
@@ -29,12 +29,7 @@
                 "cuda"
             ],
             "default": "cpu",
-            "description": "PyTorch compute backend: 'cpu' for CPU-only or 'cuda' for GPU support"
-        },
-        "cudaVersion": {
-            "type": "string",
-            "default": "12.6",
-            "description": "CUDA version to install (only used when backend is 'cuda'). Supported: '13.0', '12.8', '12.6', '12.1', '11.8'"
+            "description": "PyTorch compute backend. If cuda, the CUDA version is inferred from the base image."
         }
     }
 }
