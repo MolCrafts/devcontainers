@@ -2,6 +2,8 @@
   "name": "MolCrafts CPU Image",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
   "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {},
+    "ghcr.io/devcontainers/features/anaconda:1": {},
     "ghcr.io/molcrafts/devcontainers/molpy:latest": {
       "installJupyter": true
     },

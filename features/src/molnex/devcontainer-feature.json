@@ -1,7 +1,7 @@
 {
     "name": "molnex",
     "id": "molnex",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "A feature for setting up molnex - unified modeling of molecular potentials and properties with physics-aware ML",
     "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/main/LICENSE",
     "dependsOn": {

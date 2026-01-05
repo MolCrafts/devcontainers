@@ -1,12 +1,10 @@
 {
     "name": "molexp",
     "id": "molexp",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "A feature for setting up molexp - a task graph framework with compiler, engine, and DSL",
     "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/main/LICENSE",
     "dependsOn": {
-        "ghcr.io/devcontainers/features/common-utils:2": {},
-        "ghcr.io/devcontainers/features/anaconda:1": {},
         "ghcr.io/devcontainers/features/node:1": {}
     },
     "customizations": {

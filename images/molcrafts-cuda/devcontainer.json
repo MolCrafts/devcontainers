@@ -2,6 +2,10 @@
   "name": "MolCrafts CUDA Image",
   "image": "nvcr.io/nvidia/pytorch:25.12-py3",
   "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true
+    },
     "ghcr.io/molcrafts/devcontainers/molpy:latest": {
       "installJupyter": true
     },
