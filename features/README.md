@@ -150,7 +150,7 @@ molpy (base)
 devcontainer features test .
 
 # Test specific feature
-devcontainer features test --features molnex .
+devcontainer features test . -f molnex
 ```
 
 ### Creating New Features

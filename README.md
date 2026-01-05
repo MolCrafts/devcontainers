@@ -85,7 +85,7 @@ Pre-built complete environments. See [images/README.md](images/README.md) for de
 devcontainer features test ./features
 
 # Test specific feature
-devcontainer features test --features molnex ./features
+devcontainer features test ./features -f molnex
 ```
 
 ### Testing Images
