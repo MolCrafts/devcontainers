@@ -52,14 +52,14 @@ jobs:
       - name: Build and push devcontainer image
         run: |
           IMAGE_NAME=$(basename ${{ matrix.image-dir }})
+          VERSION=$(cat images/VERSION)
           cd ${{ matrix.image-dir }}
           
           devcontainer build \
             --workspace-folder ../.. \
             --image-name ghcr.io/molcrafts/devcontainers/${IMAGE_NAME}:latest \
-            --image-name ghcr.io/molcrafts/devcontainers/${IMAGE_NAME}:${{ github.sha }} \
-            --push \
-            --log-level info
+            --image-name ghcr.io/molcrafts/devcontainers/${IMAGE_NAME}:v${VERSION} \
+            --push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
