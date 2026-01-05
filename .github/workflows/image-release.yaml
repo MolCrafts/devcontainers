@@ -9,8 +9,6 @@ on:
       - 'images/**'
       - 'features/src/**'
       - '.github/workflows/image-release.yaml'
-    paths-ignore:
-      - '**/*.md'
   workflow_run:
     workflows: ["Release features"]
     types:
