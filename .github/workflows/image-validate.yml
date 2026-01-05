@@ -5,6 +5,8 @@ on:
     paths:
       - 'images/**'
       - '.github/workflows/image-validate.yml'
+    paths-ignore:
+      - '**/*.md'
 
 concurrency:
   group: image-validate-${{ github.ref }}

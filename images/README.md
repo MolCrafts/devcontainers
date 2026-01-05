@@ -1,109 +1,44 @@
 # MolCrafts DevContainer Images
 
-Pre-built devcontainer images that combine all MolCrafts features into ready-to-use development environments.
+预构建镜像，包含全部 MolCrafts features。
 
-## Available Images
+## 镜像列表
 
-### molcrafts-cpu
+- **molcrafts-cpu** — 全量功能，PyTorch CPU
+  ```json
+  { "image": "ghcr.io/molcrafts/devcontainers/images/molcrafts-cpu:latest" }
+  ```
+  配置：[devcontainer.json](molcrafts-cpu/devcontainer.json)
 
-Complete development environment with all features using CPU-only PyTorch.
+- **molcrafts-cuda** — 全量功能，PyTorch CUDA（需宿主 GPU，`--gpus all`）
+  ```json
+  { "image": "ghcr.io/molcrafts/devcontainers/images/molcrafts-cuda:latest", "runArgs": ["--gpus", "all"] }
+  ```
+  配置：[devcontainer.json](molcrafts-cuda/devcontainer.json)
 
-**Includes:**
-- Python development environment (molpy)
-- Rust development environment (molrs)
-- Visualization tools (molvis)
-- Task graph framework (molexp)
-- ML training system (molnex) with CPU backend
+> CUDA 需宿主安装 NVIDIA 驱动 + NVIDIA Container Toolkit。
 
-**Usage:**
-```json
-{
-  "image": "ghcr.io/molcrafts/devcontainers/images/molcrafts-cpu:latest"
-}
-```
-
-**Configuration:** [devcontainer.json](molcrafts-cpu/devcontainer.json)
-
----
-
-### molcrafts-cuda
-
-Complete development environment with all features using CUDA-enabled PyTorch.
-
-**Includes:**
-- Python development environment (molpy)
-- Rust development environment (molrs)
-- Visualization tools (molvis)
-- Task graph framework (molexp)
-- ML training system (molnex) with CUDA 13.1 backend
-
-**Usage:**
-```json
-{
-  "image": "ghcr.io/molcrafts/devcontainers/images/molcrafts-cuda:latest",
-  "runArgs": ["--gpus", "all"]
-}
-```
-
-**Configuration:** [devcontainer.json](molcrafts-cuda/devcontainer.json)
-
-> [!IMPORTANT]
-> CUDA support requires:
-> - NVIDIA GPU with CUDA 13.1 support
-> - NVIDIA GPU drivers on host machine
-> - NVIDIA Container Toolkit installed
-
----
-
-## Development
-
-### Building Locally
+## 开发/构建
 
 ```bash
-# Build CPU image
-cd molcrafts-cpu
-devcontainer build --workspace-folder ../.. --image-name ghcr.io/molcrafts/devcontainers/images/molcrafts-cpu:test
+# 构建 CPU 镜像
+cd molcrafts-cpu && devcontainer build --workspace-folder ../.. --image-name ghcr.io/molcrafts/devcontainers/images/molcrafts-cpu:test
 
-# Build CUDA image
-cd molcrafts-cuda
-devcontainer build --workspace-folder ../.. --image-name ghcr.io/molcrafts/devcontainers/images/molcrafts-cuda:test
-```
+# 构建 CUDA 镜像
+cd molcrafts-cuda && devcontainer build --workspace-folder ../.. --image-name ghcr.io/molcrafts/devcontainers/images/molcrafts-cuda:test
 
-### Testing
-
-```bash
-# Test image build
+# 快速本地验证
 devcontainer build --workspace-folder ../.. --image-name test:local
 ```
 
-### Publishing
+## 发布
+- 推送 images/ 相关改动或上游 features 发布成功后自动构建发布：
+  - `ghcr.io/molcrafts/devcontainers/images/<image>:latest`
+  - `ghcr.io/molcrafts/devcontainers/images/<image>:<commit-sha>`
 
-Images are automatically built and published when:
-- Changes are pushed to the `images/` directory
-- Features are successfully published (via workflow dependency)
-
-Images are published to:
-- `ghcr.io/molcrafts/devcontainers/images/<image-name>:latest`
-- `ghcr.io/molcrafts/devcontainers/images/<image-name>:<commit-sha>`
-
----
-
-## Customization
-
-If you need a customized environment, you can:
-
-1. **Use individual features**: Compose your own environment
-2. **Extend existing images**: Use our images as base and add more features
-3. **Fork and modify**: Create your own images based on our configurations
-
-Example of extending with additional features:
-
-```json
-{
-  "image": "ghcr.io/molcrafts/devcontainers/images/molcrafts-cpu:latest",
-  "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
-  }
-}
-```
+## 自定义
+- 直接组合 features，或在镜像上追加其他 features：
+  ```json
+  { "image": "ghcr.io/molcrafts/devcontainers/images/molcrafts-cpu:latest", "features": { "ghcr.io/devcontainers/features/docker-in-docker:2": {} } }
+  ```
 

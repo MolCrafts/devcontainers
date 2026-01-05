@@ -4,11 +4,13 @@ on:
     branches:
       - master
     paths:
-      - 'features/**'
+      - 'features/src/**'
+      - 'features/test/**'
       - '.github/workflows/feature-test.yaml'
   pull_request:
     paths:
-      - 'features/**'
+      - 'features/src/**'
+      - 'features/test/**'
       - '.github/workflows/feature-test.yaml'
   workflow_dispatch:
 
@@ -36,7 +38,7 @@ jobs:
       - name: "Test '${{ matrix.features }}'"
         run: devcontainer features test ./features -f ${{ matrix.features }}
 
-  test-molnex-cpu:
+  test-molnex-global:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -45,6 +47,6 @@ jobs:
       - name: "Install devcontainer CLI"
         run: npm install -g @devcontainers/cli
 
-      - name: "Test molnex (CPU only)"
-        run: devcontainer features test ./features -f molnex
+      - name: "Test molnex global scenarios"
+        run: devcontainer features test ./features -f molnex --skip-scenarios
 

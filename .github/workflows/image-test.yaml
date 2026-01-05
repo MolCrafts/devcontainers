@@ -7,11 +7,15 @@ on:
       - 'images/**'
       - 'features/src/**'
       - '.github/workflows/image-test.yaml'
+    paths-ignore:
+      - '**/*.md'
   pull_request:
     paths:
       - 'images/**'
       - 'features/src/**'
       - '.github/workflows/image-test.yaml'
+    paths-ignore:
+      - '**/*.md'
   workflow_dispatch:
 
 concurrency:
