@@ -1,0 +1,28 @@
+{
+  "name": "MolCrafts CUDA Image",
+  "image": "nvcr.io/nvidia/pytorch:26.01-py3",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true
+    },
+    "ghcr.io/molcrafts/devcontainers/molpy:latest": {},
+    "ghcr.io/molcrafts/devcontainers/molrs:latest": {},
+    "ghcr.io/molcrafts/devcontainers/molvis:latest": {},
+    "ghcr.io/molcrafts/devcontainers/molexp:latest": {},
+    "ghcr.io/molcrafts/devcontainers/molnex:latest": {
+      "backend": "cuda"
+    }
+  },
+  "runArgs": ["--gpus", "all"],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "rust-lang.rust-analyzer",
+        "biomejs.biome"
+      ]
+    }
+  }
+}
+

@@ -1,0 +1,8 @@
+{
+  "python-base": {
+    "image": "mcr.microsoft.com/devcontainers/python:3",
+    "features": {
+      "molvis": {}
+    }
+  }
+}

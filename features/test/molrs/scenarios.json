@@ -1,0 +1,8 @@
+{
+  "rust-base": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "features": {
+      "molrs": {}
+    }
+  }
+}

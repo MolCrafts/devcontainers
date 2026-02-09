@@ -1,0 +1,19 @@
+{
+    "name": "molexp",
+    "id": "molexp",
+    "version": "0.0.1",
+    "description": "A feature for setting up molexp - a task graph framework with compiler, engine, and DSL",
+    "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/main/LICENSE",
+    "dependsOn": {
+        "ghcr.io/devcontainers/features/node:1": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "biomejs.biome",
+                "charliermarsh.ruff"
+            ]
+        }
+    }
+}

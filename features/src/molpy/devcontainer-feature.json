@@ -1,0 +1,16 @@
+{
+  "name": "molpy",
+  "id": "molpy",
+  "version": "0.0.1",
+  "description": "Python development environment for molecular science projects with Ruff for linting and formatting",
+  "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/main/LICENSE",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "charliermarsh.ruff",
+        "ms-python.python",
+        "njpwerner.autodocstring"
+      ]
+    }
+  }
+}
