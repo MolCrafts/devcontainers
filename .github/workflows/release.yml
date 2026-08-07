@@ -35,7 +35,7 @@ jobs:
       packages: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Publish
         uses: devcontainers/action@v1
@@ -68,7 +68,7 @@ jobs:
       matrix:
         feature: [molpy, molrs, molvis, molexp, molnex]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       # Freshly published ghcr packages are private until the package settings
       # are changed. Log in so this job works either way.
@@ -110,7 +110,7 @@ jobs:
             # CUDA has no arm64 desktop story worth shipping here.
             platforms: linux/amd64
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
