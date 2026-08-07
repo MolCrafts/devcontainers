@@ -1,0 +1,17 @@
+{
+  "rust-defaults": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": {
+      "rust": {}
+    }
+  },
+  "rust-no-extras": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": {
+      "rust": {
+        "targets": "none",
+        "tools": "none"
+      }
+    }
+  }
+}

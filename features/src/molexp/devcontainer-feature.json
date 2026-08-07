@@ -1,0 +1,35 @@
+{
+  "id": "molexp",
+  "version": "1.0.0",
+  "name": "MolCrafts molexp",
+  "description": "Meta-feature for molexp: a FastAPI/typer Python backend plus the molexp-ui npm workspace, so it needs both toolchains at once. Composition only.",
+  "documentationURL": "https://github.com/MolCrafts/devcontainers/tree/master/features/src/molexp",
+  "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/master/LICENSE",
+  "keywords": ["molexp", "meta", "python", "node", "fastapi"],
+  "dependsOn": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    },
+    "ghcr.io/molcrafts/devcontainers/node:1": {
+      "enableCorepack": true,
+      "globalPackages": "@biomejs/biome"
+    },
+    "ghcr.io/molcrafts/devcontainers/python:1": {
+      "pythonVersion": "3.14",
+      "tools": "ruff,ty,prek"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-toolsai.jupyter"
+      ]
+    }
+  },
+  "portsAttributes": {
+    "8000": {
+      "label": "molexp API (uvicorn)",
+      "onAutoForward": "notify"
+    }
+  }
+}

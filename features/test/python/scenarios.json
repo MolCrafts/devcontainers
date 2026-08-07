@@ -1,0 +1,26 @@
+{
+  "python-defaults": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": {
+      "python": {}
+    }
+  },
+  "python-pinned-312": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": {
+      "python": {
+        "pythonVersion": "3.12",
+        "tools": "ruff"
+      }
+    }
+  },
+  "python-no-interpreter": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": {
+      "python": {
+        "pythonVersion": "none",
+        "tools": "none"
+      }
+    }
+  }
+}

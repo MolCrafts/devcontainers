@@ -1,0 +1,21 @@
+{
+  "torch-cpu": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": {
+      "python": {},
+      "torch": {
+        "backend": "cpu"
+      }
+    }
+  },
+  "torch-auto-no-isolation": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": {
+      "python": {},
+      "torch": {
+        "backend": "auto",
+        "buildIsolation": false
+      }
+    }
+  }
+}
