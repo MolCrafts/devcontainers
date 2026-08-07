@@ -1,0 +1,28 @@
+{
+  "id": "molvis",
+  "version": "1.0.1",
+  "name": "MolCrafts molvis",
+  "description": "Meta-feature for molvis (npm workspaces core/stage/sketch/plugin/page/vsc-ext plus the python/ bridge package) and the sibling front-ends molplot / molhub-index / molcrafts-index. Composition only.",
+  "documentationURL": "https://github.com/MolCrafts/devcontainers/tree/master/features/src/molvis",
+  "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/master/LICENSE",
+  "keywords": [
+    "molvis",
+    "meta",
+    "node",
+    "biome",
+    "typescript"
+  ],
+  "dependsOn": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    },
+    "ghcr.io/molcrafts/devcontainers/node:1": {
+      "enableCorepack": true,
+      "globalPackages": "@biomejs/biome"
+    },
+    "ghcr.io/molcrafts/devcontainers/python:1": {
+      "pythonVersion": "3.14",
+      "tools": "ruff,ty,prek"
+    }
+  }
+}

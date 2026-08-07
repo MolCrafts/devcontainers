@@ -1,0 +1,6 @@
+{
+  "molrs-meta": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": { "molrs": {} }
+  }
+}

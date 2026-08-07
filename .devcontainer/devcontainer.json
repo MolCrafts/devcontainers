@@ -1,0 +1,55 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "MolCrafts DevContainers (authoring)",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true
+    },
+    "ghcr.io/devcontainers/features/node:1": { "version": "22" },
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    // `devcontainer features test` builds a container per scenario, so this
+    // repo genuinely needs a Docker daemon of its own.
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+
+  // shellcheck is the CI gate for features/src/*/install.sh — have it locally
+  // so the failure is found before the push, not after.
+  "onCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends shellcheck jq",
+  "updateContentCommand": "npm install -g @devcontainers/cli && npm install --no-save jsonc-parser",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "mads-hartmann.bash-ide-vscode",
+        "timonwong.shellcheck",
+        "redhat.vscode-yaml",
+        "GitHub.vscode-github-actions"
+      ],
+      "settings": {
+        "files.insertFinalNewline": true,
+        "files.trimTrailingWhitespace": true,
+        "json.schemas": [
+          {
+            "fileMatch": ["features/src/*/devcontainer-feature.json"],
+            "url": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainerFeature.schema.json"
+          },
+          {
+            "fileMatch": [
+              "images/*/.devcontainer/devcontainer.json",
+              ".devcontainer/devcontainer.json"
+            ],
+            "url": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json"
+          }
+        ],
+        "yaml.schemas": {
+          "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml"
+        }
+      }
+    }
+  },
+
+  "remoteUser": "vscode"
+}

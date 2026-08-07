@@ -1,0 +1,56 @@
+{
+  "id": "rust",
+  "version": "1.0.1",
+  "name": "MolCrafts Rust toolchain",
+  "description": "Rust toolchain extras shared by molrs / molpack / molqrc: rustfmt + clippy + rust-src components, the wasm32-unknown-unknown target, and cargo-binstall-provisioned wasm-pack / maturin.",
+  "documentationURL": "https://github.com/MolCrafts/devcontainers/tree/master/features/src/rust",
+  "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/master/LICENSE",
+  "keywords": [
+    "rust",
+    "wasm",
+    "wasm-pack",
+    "maturin",
+    "clippy"
+  ],
+  "options": {
+    "components": {
+      "type": "string",
+      "default": "rustfmt,clippy,rust-src",
+      "description": "Comma-separated rustup components. 'none' skips."
+    },
+    "targets": {
+      "type": "string",
+      "default": "wasm32-unknown-unknown",
+      "description": "Comma-separated rustup targets. 'none' skips."
+    },
+    "tools": {
+      "type": "string",
+      "default": "wasm-pack,maturin",
+      "description": "Comma-separated cargo tools fetched as prebuilt binaries via cargo-binstall. 'none' skips (cargo-binstall itself is still installed)."
+    }
+  },
+  "dependsOn": {
+    "ghcr.io/devcontainers/features/rust:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml",
+        "vadimcn.vscode-lldb"
+      ],
+      "settings": {
+        "rust-analyzer.check.command": "clippy",
+        "rust-analyzer.cargo.buildScripts.enable": true,
+        "[rust]": {
+          "editor.defaultFormatter": "rust-lang.rust-analyzer",
+          "editor.formatOnSave": true
+        }
+      }
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/rust",
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}
