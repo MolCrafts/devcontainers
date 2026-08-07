@@ -1,0 +1,26 @@
+{
+  "id": "molpy",
+  "version": "1.0.2",
+  "name": "MolCrafts molpy",
+  "description": "Meta-feature: the environment molpy and every pure-Python MolCrafts repo (molcfg, mollog, molq, molmcp, molhub, molrec) is developed in. Composition only \u2014 it installs nothing itself.",
+  "documentationURL": "https://github.com/MolCrafts/devcontainers/tree/master/features/src/molpy",
+  "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/master/LICENSE",
+  "keywords": [
+    "molpy",
+    "meta",
+    "python"
+  ],
+  "dependsOn": {
+    "ghcr.io/molcrafts/devcontainers/python:1": {
+      "pythonVersion": "3.14",
+      "tools": "ruff,ty,prek"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-toolsai.jupyter"
+      ]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "node-defaults": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": {
+      "ghcr.io/devcontainers/features/node:1": {
+        "version": "22"
+      },
+      "node": {}
+    }
+  },
+  "node-with-wrangler": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": {
+      "ghcr.io/devcontainers/features/node:1": {
+        "version": "24"
+      },
+      "node": {
+        "enableCorepack": false,
+        "globalPackages": "@biomejs/biome,wrangler"
+      }
+    }
+  }
+}

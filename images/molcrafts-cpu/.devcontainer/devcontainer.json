@@ -1,0 +1,63 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "MolCrafts CPU",
+
+  // Plain Ubuntu LTS, not a vendor ML image. The old base
+  // (nvcr.io/nvidia/pytorch) pinned Python to whatever NGC shipped, which is
+  // behind the 3.14 the ecosystem targets, and cost ~10 GB before a single
+  // MolCrafts tool was installed.
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "upgradePackages": true
+    },
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+
+    // Node major is pinned here rather than inside the molcrafts node feature:
+    // one explicit instance in the graph, so nvm has exactly one default.
+    "ghcr.io/devcontainers/features/node:1": { "version": "22" },
+
+    "ghcr.io/molcrafts/devcontainers/python:1": {
+      "pythonVersion": "3.14",
+      "tools": "ruff,ty,prek"
+    },
+    "ghcr.io/molcrafts/devcontainers/rust:1": {},
+    "ghcr.io/molcrafts/devcontainers/node:1": {},
+    "ghcr.io/molcrafts/devcontainers/native:1": {},
+    "ghcr.io/molcrafts/devcontainers/torch:1": {
+      "backend": "cpu",
+      "buildIsolation": false
+    }
+  },
+
+  // Downloads dominate first-run time in this ecosystem (torch wheels, the
+  // crates.io registry, node_modules). Named volumes keep them across
+  // rebuilds; they are per-user, not baked into the image.
+  "mounts": [
+    "source=molcrafts-uv-cache,target=/home/vscode/.cache/uv,type=volume",
+    "source=molcrafts-cargo-registry,target=/home/vscode/.cargo/registry,type=volume",
+    "source=molcrafts-npm-cache,target=/home/vscode/.npm,type=volume"
+  ],
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.makefile-tools",
+        "redhat.vscode-yaml",
+        "GitHub.vscode-github-actions"
+      ],
+      "settings": {
+        "files.insertFinalNewline": true,
+        "files.trimTrailingWhitespace": true,
+        "editor.formatOnSave": true,
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      }
+    }
+  },
+
+  "remoteUser": "vscode"
+}
