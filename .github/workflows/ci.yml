@@ -1,0 +1,153 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint scripts and manifests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+
+      # Every install.sh runs as root inside someone's image. shellcheck is the
+      # cheapest gate that catches the class of bug that shipped before:
+      # a missing shebang and a missing `set -e` in molrs/install.sh meant a
+      # failed step was reported as success.
+      - name: shellcheck
+        run: shellcheck --severity=warning --shell=bash features/src/*/install.sh
+
+      - name: Every install.sh has a shebang and is executable
+        run: |
+          fail=0
+          for f in features/src/*/install.sh; do
+            head -1 "$f" | grep -q '^#!' || { echo "::error file=$f::missing shebang"; fail=1; }
+            [ -x "$f" ] || { echo "::error file=$f::not executable (chmod +x)"; fail=1; }
+          done
+          exit "$fail"
+
+      - name: devcontainer-feature.json is strict JSON
+        run: |
+          fail=0
+          for f in features/src/*/devcontainer-feature.json features/test/*/scenarios.json; do
+            jq empty "$f" || { echo "::error file=$f::invalid JSON"; fail=1; }
+          done
+          exit "$fail"
+
+      # The id must equal the directory name — the publisher derives the OCI
+      # tag from the directory, so a mismatch publishes under a name nothing
+      # references.
+      - name: Feature id matches its directory
+        run: |
+          fail=0
+          for d in features/src/*/; do
+            name=$(basename "$d")
+            id=$(jq -r .id "$d/devcontainer-feature.json")
+            [ "$name" = "$id" ] || { echo "::error::id '$id' != directory '$name'"; fail=1; }
+          done
+          exit "$fail"
+
+      # Every feature must have at least one scenario, otherwise the test job
+      # below silently covers nothing.
+      - name: Every feature has tests
+        run: |
+          fail=0
+          for d in features/src/*/; do
+            name=$(basename "$d")
+            [ -f "features/test/${name}/scenarios.json" ] \
+              || { echo "::error::features/test/${name}/scenarios.json missing"; fail=1; }
+          done
+          exit "$fail"
+
+  validate-features:
+    name: Validate feature schemas
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: devcontainers/action@v1
+        with:
+          validate-only: "true"
+          base-path-to-features: "./features/src"
+
+  validate-images:
+    name: Validate image configs
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      # devcontainer.json is JSONC (comments, trailing commas), so jq cannot
+      # read it. Parse it the way the CLI does instead of stripping comments
+      # with a regex.
+      - name: Parse every devcontainer.json as JSONC
+        run: |
+          npm install --no-save --no-fund --no-audit jsonc-parser
+          node .github/scripts/validate-devcontainer-json.mjs \
+            .devcontainer/devcontainer.json \
+            images/*/.devcontainer/devcontainer.json
+
+      # Features are deduplicated by id AND options, so the same feature
+      # requested twice with different options installs twice — silently, and
+      # with the last writer winning by install order. Nothing else in the
+      # toolchain reports this.
+      - name: No conflicting feature instances
+        run: |
+          node .github/scripts/check-feature-graph.mjs \
+            .devcontainer/devcontainer.json \
+            images/*/.devcontainer/devcontainer.json
+
+      # The release workflow discovers images by this exact path. The previous
+      # validate job looked for images/*/devcontainer.json, which never matched
+      # the images/*/.devcontainer.json that actually existed — so it passed
+      # while validating nothing. Assert the layout explicitly.
+      - name: Each image dir exposes .devcontainer/devcontainer.json
+        run: |
+          count=0
+          fail=0
+          for d in images/*/; do
+            count=$((count + 1))
+            if [ ! -f "${d}.devcontainer/devcontainer.json" ]; then
+              echo "::error::${d} has no .devcontainer/devcontainer.json"
+              fail=1
+            fi
+          done
+          if [ "$count" -eq 0 ]; then
+            echo "::error::no image directories found under images/"
+            fail=1
+          fi
+          exit "$fail"
+
+  test-features:
+    name: "Test ${{ matrix.feature }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: [lint, validate-features]
+    strategy:
+      fail-fast: false
+      matrix:
+        # Toolchain features only. The meta-features (molpy/molrs/molvis/
+        # molexp/molnex) resolve their dependsOn graph from ghcr, so they can
+        # only be tested against PUBLISHED versions — release.yml verifies them
+        # right after the publish step.
+        feature: [python, rust, node, native, torch]
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install devcontainer CLI
+        run: npm install -g @devcontainers/cli
+      - name: "devcontainer features test -f ${{ matrix.feature }}"
+        run: devcontainer features test ./features -f ${{ matrix.feature }} --skip-autogenerated
