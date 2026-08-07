@@ -1,0 +1,70 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "MolCrafts CUDA",
+
+  // NVIDIA's official CUDA devel image — ships nvcc, the toolkit, and cuDNN.
+  // Do NOT layer ghcr.io/devcontainers/features/nvidia-cuda on top of a plain
+  // Ubuntu base: that feature rebuilds the toolkit from packages and pulls
+  // nsight-systems (broken on 24.04 via libtinfo5). Start from the vendor
+  // image instead and only add MolCrafts toolchains.
+  //
+  // PyTorch is still NOT in this base (unlike nvcr.io/nvidia/pytorch). The
+  // project's lockfile owns torch; the torch feature only wires uv resolution.
+  "image": "nvidia/cuda:12.8.1-cudnn-devel-ubuntu24.04",
+
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "upgradePackages": true
+    },
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/node:1": { "version": "22" },
+
+    "ghcr.io/molcrafts/devcontainers/python:1": {
+      "pythonVersion": "3.14",
+      "tools": "ruff,ty,prek"
+    },
+    "ghcr.io/molcrafts/devcontainers/rust:1": {},
+    "ghcr.io/molcrafts/devcontainers/node:1": {},
+    "ghcr.io/molcrafts/devcontainers/native:1": {},
+
+    // 'auto': uv picks the torch wheel index from the driver at resolve time.
+    "ghcr.io/molcrafts/devcontainers/torch:1": {
+      "backend": "auto",
+      "buildIsolation": false
+    }
+  },
+
+  // 'optional' lets the CLI pass --gpus all when a GPU is present and still
+  // open the container when it is not.
+  "hostRequirements": {
+    "gpu": "optional"
+  },
+
+  "mounts": [
+    "source=molcrafts-uv-cache,target=/home/vscode/.cache/uv,type=volume",
+    "source=molcrafts-cargo-registry,target=/home/vscode/.cargo/registry,type=volume",
+    "source=molcrafts-npm-cache,target=/home/vscode/.npm,type=volume"
+  ],
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.makefile-tools",
+        "redhat.vscode-yaml",
+        "GitHub.vscode-github-actions",
+        "nvidia.nsight-vscode-edition"
+      ],
+      "settings": {
+        "files.insertFinalNewline": true,
+        "files.trimTrailingWhitespace": true,
+        "editor.formatOnSave": true,
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      }
+    }
+  },
+
+  "remoteUser": "vscode"
+}

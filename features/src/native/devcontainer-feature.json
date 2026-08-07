@@ -1,0 +1,68 @@
+{
+  "id": "native",
+  "version": "1.0.3",
+  "name": "MolCrafts native toolchain",
+  "description": "C/C++ build toolchain for Atomiverse and the compiled half of molnex / molrs-cxxapi: a modern CMake (>=4, Ubuntu ships 3.x), Ninja, clang tooling, ccache and Doxygen.",
+  "documentationURL": "https://github.com/MolCrafts/devcontainers/tree/master/features/src/native",
+  "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/master/LICENSE",
+  "keywords": [
+    "cmake",
+    "ninja",
+    "clang",
+    "cpp",
+    "doxygen"
+  ],
+  "options": {
+    "cmakeVersion": {
+      "type": "string",
+      "proposals": [
+        "latest",
+        "4.1.2"
+      ],
+      "default": "latest",
+      "description": "CMake release to install from the official Kitware binary tarball. molnex's build-system.requires pins 'cmake>=4', which no LTS distro package satisfies."
+    },
+    "installClangTools": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install clang, clangd, clang-format, clang-tidy and lld."
+    },
+    "installDoxygen": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install Doxygen and Graphviz (Atomiverse's docs target calls find_package(Doxygen))."
+    },
+    "installCcache": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install ccache to keep C++20/CUDA rebuilds cheap."
+    }
+  },
+  "containerEnv": {
+    "CMAKE_GENERATOR": "Ninja",
+    "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "llvm-vs-code-extensions.vscode-clangd",
+        "ms-vscode.cmake-tools",
+        "cschlosser.doxdocgen"
+      ],
+      "settings": {
+        "cmake.generator": "Ninja",
+        "cmake.configureOnOpen": false,
+        "C_Cpp.intelliSenseEngine": "disabled",
+        "[cpp]": {
+          "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+        },
+        "[c]": {
+          "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+        }
+      }
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}

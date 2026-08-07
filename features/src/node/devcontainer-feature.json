@@ -1,0 +1,61 @@
+{
+  "id": "node",
+  "version": "1.0.3",
+  "name": "MolCrafts Node toolchain",
+  "description": "Node tooling shared by molvis / molplot / molexp-ui / the *-index sites: corepack so the repo's pinned packageManager wins, plus Biome as the single lint+format tool.",
+  "documentationURL": "https://github.com/MolCrafts/devcontainers/tree/master/features/src/node",
+  "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/master/LICENSE",
+  "keywords": [
+    "node",
+    "npm",
+    "biome",
+    "corepack"
+  ],
+  "options": {
+    "enableCorepack": {
+      "type": "boolean",
+      "default": true,
+      "description": "Run 'corepack enable' so the package manager pinned in each repo's package.json 'packageManager' field is the one that runs. No-op when the Node build does not ship corepack."
+    },
+    "globalPackages": {
+      "type": "string",
+      "default": "@biomejs/biome",
+      "description": "Comma-separated npm packages installed globally. Useful additions: 'wrangler' (molcrafts-edge). 'none' skips."
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "biomejs.biome"
+      ],
+      "settings": {
+        "editor.defaultFormatter": "biomejs.biome",
+        "editor.codeActionsOnSave": {
+          "source.organizeImports.biome": "explicit"
+        },
+        "[javascript]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[javascriptreact]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[json]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        }
+      }
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/node",
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}

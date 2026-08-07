@@ -1,0 +1,30 @@
+{
+  "id": "molrs",
+  "version": "1.0.3",
+  "name": "MolCrafts molrs",
+  "description": "Meta-feature for molrs and the other Rust crates (molpack, molqrc): the Rust toolchain plus the C++ compiler molrs-cxxapi's cxx bridge needs and the Python side maturin builds against. Composition only.",
+  "documentationURL": "https://github.com/MolCrafts/devcontainers/tree/master/features/src/molrs",
+  "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/master/LICENSE",
+  "keywords": [
+    "molrs",
+    "meta",
+    "rust",
+    "wasm",
+    "maturin"
+  ],
+  "dependsOn": {
+    "ghcr.io/molcrafts/devcontainers/rust:1": {
+      "components": "rustfmt,clippy,rust-src",
+      "targets": "wasm32-unknown-unknown",
+      "tools": "wasm-pack,maturin"
+    },
+    "ghcr.io/molcrafts/devcontainers/native:1": {
+      "cmakeVersion": "latest",
+      "installDoxygen": false
+    },
+    "ghcr.io/molcrafts/devcontainers/python:1": {
+      "pythonVersion": "3.14",
+      "tools": "ruff,ty,prek"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "torch",
+  "version": "1.0.3",
+  "name": "MolCrafts PyTorch resolution",
+  "description": "Makes every 'uv sync' in the container resolve PyTorch against the right wheel index, and exports the CMAKE_PREFIX_PATH that molnex's find_package(Torch) needs. Installs no torch itself \u2014 the project's own lockfile owns the version.",
+  "documentationURL": "https://github.com/MolCrafts/devcontainers/tree/master/features/src/torch",
+  "licenseURL": "https://github.com/MolCrafts/devcontainers/blob/master/LICENSE",
+  "keywords": [
+    "pytorch",
+    "cuda",
+    "uv",
+    "molnex"
+  ],
+  "options": {
+    "backend": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "cpu",
+        "cu126",
+        "cu128",
+        "cu129",
+        "cu130"
+      ],
+      "default": "auto",
+      "description": "PyTorch wheel index written to /etc/uv/uv.toml as 'torch-backend'. 'auto' lets uv pick from the CUDA driver it finds at resolve time, which is what you want when one image serves both GPU and CPU hosts."
+    },
+    "buildIsolation": {
+      "type": "boolean",
+      "default": true,
+      "description": "Keep uv's default build isolation. Set false to write 'no-build-isolation-package = [\"molnex\"]' into /etc/uv/uv.toml \u2014 molnex declares torch in build-system.requires, and isolation makes uv download a second full torch just to build it."
+    }
+  },
+  "containerEnv": {
+    "CUDA_MODULE_LOADING": "LAZY"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-toolsai.jupyter"
+      ]
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/molcrafts/devcontainers/python",
+    "ghcr.io/devcontainers/features/nvidia-cuda",
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}
